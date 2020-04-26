@@ -1,0 +1,72 @@
+[
+    {
+        "id" : 1,
+        "title" : "Plague of Justinian",
+        "body" : 50000000,
+    },
+    {
+        "id" : 2,
+        "title" : "Black Death",
+        "body" : 125000000,
+    },
+    {
+        "id" : 3,
+        "title" : "Italian Plague",
+        "body" : 280000,
+    },
+    {
+        "id" : 4,
+        "title" : "Persian Plague",
+        "body" : 2000000,
+    },
+    {
+        "id" : 5,
+        "title" : "Cholera Pandemic",
+        "body" : 2600000,
+    },
+    {
+        "id" : 6,
+        "title" : "Influenza Pandemic",
+        "body" : 1000000,
+    },
+    {
+        "id" : 7,
+        "title" : "Spanish Flu",
+        "body" : 50000000,
+    },
+    {
+        "id" : 8,
+        "title" : "Asian Flu",
+        "body" : 2000000,
+    },
+    {
+        "id" : 9,
+        "title" : "Smallpox",
+        "body" : 500000000,
+    },
+    {
+        "id" : 10,
+        "title" : "HIV/AIDS",
+        "body" : 32000,
+    },
+    {
+        "id" : 11,
+        "title" : "Ebola Virus",
+        "body" : 12000,
+    },
+    {
+        "id" : 12,
+        "title" : "H1N1/09 Virus (Swine Flu)",
+        "body" : 250000,
+    },
+    {
+        "id" : 13,
+        "title" : "Seasonal Flu Virus",
+        "body" : 70000,
+    },
+    {
+        "id" : 14,
+        "title" : "COVID-19 (Coronavirus)",
+        "body" : 200000,
+    },
+]
