@@ -1,0 +1,204 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <title>Diseases Data</title>
+		
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<style>
+
+	body {
+		margin: 5rem;
+		font-family: "Helvetica","Arial",sans-serif;
+	}
+
+	canvas {
+		border: 1px solid #777;
+	}
+
+	</style>
+
+</head>
+
+<body>
+
+
+
+<h1>Diseases Data</h1>
+
+<p>This application will list a bar graph of diseases over time and their death tolls. This was created to show as a representation of how the Coronavirus matches up to the others.</p><br>
+    
+<p id="test"></p>
+<br>
+
+<!-- 
+	The HTML canvas element
+
+	this is a plain old HTML element that you can fill with items using JavaScript
+	it is styled above using CSS
+-->
+<canvas></canvas>
+
+
+<script>
+
+// some setup stuff - define the canvas
+const canvas = document.querySelector("canvas");
+// tell it to use a '2d' context, don't worry about this just do it
+const ctx = canvas.getContext("2d");
+
+
+// set the width and height of the canvas
+canvas.width = 600;
+canvas.height = 600;
+
+// the URL i want to use - the 'posts' from the test API
+var url = '{"diseases":[' +
+    '{"id": 1, "title": "Plague of Justinian", "body": "50,000,000"},' +
+	'{"id": 2, "title": "Black Death", "body": "125,000,000"},' +
+	'{"id": 3, "title": "Italian Plague", "body": "280,000"},' +
+	'{"id": 4, "title": "Persian Plague", "body": "2,000,000"},' +
+	'{"id": 5, "title": "Cholera Pandemic", "body": "2,600,000"},' +
+	'{"id": 6, "title": "Influenza Pandemic", "body": "1,000,000"},' +
+	'{"id": 7, "title": "Spanish Flu", "body": "50,000,000"},' +
+	'{"id": 8, "title": "Asian Flu", "body": "2,000,000"},' +
+	'{"id": 9, "title": "Smallpox", "body": "500,000,000"},' +
+	'{"id": 10, "title": "HIV/AIDS", "body": "32,000"},' +
+	'{"id": 11, "title": "Ebola Virus", "body": "12,000"},' +
+	'{"id": 12, "title": "H1N1/09 Virus (Swine Flu)", "body": "250,000"},' +
+	'{"id": 13, "title": "Seasonal Flu Virus", "body": "70,000"},' +
+	'{"id": 14, "title": "COVID-19 (Coronavirus)", "body": "200,000"}]}';
+
+console.log(url);
+    
+    
+obj = JSON.parse(url);
+    
+/*  var i;
+    var text = "";
+for (i = 0; i < url.length; i++) {
+  text += url[i] + "<br>";
+}*/
+    
+document.getElementById("test").innerHTML =
+obj.diseases[2].title + ": " + obj.diseases[2].body + " people";
+// an array of random posts to select
+const postItems = [1,2,3,4];
+
+
+// some size settings - gap is the space between items, height 
+// is how tall each bar will be, and offset is how far from 
+// the origin to start everything - these are here to 
+// size and space things out inside the canvas
+const gap = 80;
+const height = 60;
+
+// this one gets reassigned in the code so it can't be a 'const'
+let offset = 70;
+
+/*
+	the loop - 
+
+	this says for each item in the diseases array, refer to the
+	current item by the word 'item' and then do stuff with it
+*/
+postItems.forEach(function(item) {
+
+	// first thing - get the URL and item number with a / between them
+	fetch(`${url}/${id}`)
+
+		// if you can get the response...
+		.then(function(response) {
+
+			// console log the whole URL 
+			console.log(`${url}/${id}`);
+
+			// turn the response into JSON
+			return response.json();
+		})
+
+		// if you can turn the response into JSON...
+		.then(function(myjson) {
+
+			// console log the JSON 
+			console.log(myjson);
+
+			// here's where the magic happens - call the
+			// 'draw' function for each item, passing in the
+			// value from that item's 'id' property, and the
+			// value from it's 'title' property
+			draw(myjson['id'],myjson['title']);
+
+			// add the value of the height and gap 
+			// to set where the next item will be drawn
+			// this makes it so new items are not drawn 
+			// right on top of the previous one, but are moved down 
+			offset += height + gap;
+		});
+
+});
+
+
+/* 
+	the 'draw' function - 
+	
+	this actually draws the items in the HTML canvas 
+	it expects two parameters - the ID number and the title of each item
+*/
+function draw(itemID,itemTitle,itemBody) {
+
+	// figure out how long to draw the bar by 
+	// seeing how many characters are in the title
+	let itemLength = itemBody / 1000000;
+
+
+	// get a random RGB color for the fill style
+	// by calling the randomRGB() function below
+	ctx.fillStyle = randomRGB();
+
+
+	// fill a rectangle with this color, starting at
+	// 0 along the x-axis, the value of offset on the
+	// y-axis, and make it as wide as the titles's
+	// length and as tall as the setting for the bar
+	// height above	
+	ctx.fillRect(0,offset,itemLength,height);
+
+	// set the fill color to black and the font size and style
+	ctx.fillStyle = "#000000";
+	ctx.font = '18px sans-serif';
+
+	// draw 'Post number X' 5px in from the left,
+	// and 5px up from the start of the bar
+	ctx.fillText(`Post number ${itemID} has ${itemLength} characters`, 5, offset - 5);
+
+	// resize the font
+	ctx.font = '24px sans-serif';
+
+	// write the height value 10px in from the left, and 
+	// vertically at about the middle of the bar
+	ctx.fillText(itemLength, 10, offset + (height/1.1));
+}
+
+
+// make a random RGB color
+function randomRGB() {
+	return("rgb(" + randomNumber() + "," + randomNumber() + "," +  randomNumber() + ")");
+}
+
+// make a random number between 0 and 255 
+function randomNumber() {
+	return(Math.floor(Math.random() * 256));
+}
+
+
+</script>
+
+
+
+</body>
+</html>
